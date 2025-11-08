@@ -83,6 +83,10 @@ public class SecurityConfig {
                 .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                 // allow login
                 .requestMatchers("/api/login/**").permitAll()
+                // allow access to statistics endpoints
+                .requestMatchers("/api/statistics/**").permitAll()
+                // allow access to Swagger UI and OpenAPI docs
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
 //                // allow access to graphiql
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/favicon.ico").permitAll()
