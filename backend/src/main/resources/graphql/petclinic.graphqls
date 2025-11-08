@@ -164,6 +164,10 @@ type Query {
     vet(id: Int!): Vet
     " Return all known veterinaries"
     vets(first:Int, after:String, last:Int, before:String): VetConnection!
+    " Get pet count by type"
+    petStatisticsByType: [PetTypeCount!]!
+    " Get top requested specialty services per pet type"
+    topServicesByPetType: [TopService!]!
 }
 
 type RemoveSpecialtyPayload {
@@ -330,4 +334,24 @@ input UpdateSpecialtyInput {
     name: String!
     " The id of the specialty that should be updated"
     specialtyId: Int!
+}
+
+# Pet Statistics Types
+
+"Statistics for pet count by type"
+type PetTypeCount {
+    "The pet type"
+    petType: PetType!
+    "Number of pets of this type"
+    count: Int!
+}
+
+"Statistics for top requested specialty services per pet type"
+type TopService {
+    "The pet type"
+    petType: PetType!
+    "The most requested specialty for this pet type"
+    specialty: Specialty!
+    "Number of service requests (visits to vets with this specialty)"
+    requestCount: Int!
 }
