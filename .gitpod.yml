@@ -1,0 +1,43 @@
+image:
+  file: .gitpod.Dockerfile
+tasks:
+  - name: Build
+    init: |
+      ./mvnw package -Dmaven.test.skip=true -pl backend
+      gp sync-done build
+  - name: "Run Petclinic Backend"
+    init: |
+      gp sync-await build
+    command: |
+      export SPRING_DOCKER_COMPOSE_FILE=/workspace/spring-petclinic-graphql/docker-compose.yml
+      ./mvnw spring-boot:run -pl backend
+  - name: "Frontend"
+    init: |
+      cd frontend
+      corepack enable
+      pnpm install
+      pnpm build
+    command: |
+      gp ports await 9977
+      cd $GITPOD_REPO_ROOT/frontend
+      pnpm dev
+ports:
+  - port: 9977
+    onOpen: open-browser
+    visibility: public
+  - port: 3080
+    onOpen: open-browser
+    visibility: public
+vscode:
+  extensions:
+    - redhat.java
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-test
+    - pivotal.vscode-spring-boot
+    - graphql.vscode-graphql
+jetbrains:
+  intellij:
+    plugins:
+      - com.intellij.lang.jsgraphql
+    prebuilds:
+      version: both

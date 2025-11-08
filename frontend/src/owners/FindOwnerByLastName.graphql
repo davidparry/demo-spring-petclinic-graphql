@@ -1,0 +1,26 @@
+query FindOwnerByLastName(
+  $after: String
+  $lastName: String
+  $dir: OrderDirection
+) {
+  owners(
+    first: 5
+    after: $after
+    filter: { lastName: $lastName }
+    order: [{ field: lastName, direction: $dir }, { field: firstName }]
+  ) {
+    edges {
+      node {
+        ...OwnerFields
+        pets {
+          id
+          name
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

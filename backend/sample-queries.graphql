@@ -1,0 +1,12 @@
+query {
+    owners {
+       owners {
+           id
+       }
+    }
+}
+
+
+
+
+

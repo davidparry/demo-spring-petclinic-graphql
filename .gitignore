@@ -1,0 +1,20 @@
+target/*
+.settings/*
+.classpath
+.project
+.idea
+*.iml
+/target
+*/target/
+
+generated/
+
+# Easier branch switching
+springboot-petclinic-client/
+springboot-petclinic-server/
+
+node_modules/
+npm-debug.log
+dist/
+
+frontend/.eslintcache

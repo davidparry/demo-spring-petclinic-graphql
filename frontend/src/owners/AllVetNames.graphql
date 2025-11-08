@@ -1,0 +1,11 @@
+query AllVetNames {
+  vets {
+    edges {
+      node {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+}
