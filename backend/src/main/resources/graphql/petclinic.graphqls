@@ -331,3 +331,31 @@ input UpdateSpecialtyInput {
     " The id of the specialty that should be updated"
     specialtyId: Int!
 }
+
+# Pet Statistics Types and Queries
+
+" Pet count by type statistics "
+type PetTypeCount {
+    " The pet type "
+    petType: PetType!
+    " Number of pets of this type "
+    count: Int!
+}
+
+" Top requested specialty service per pet type "
+type TopService {
+    " The pet type "
+    petType: PetType!
+    " The most requested specialty for this pet type "
+    specialty: Specialty!
+    " Number of visits for this specialty and pet type combination "
+    requestCount: Int!
+}
+
+extend type Query {
+    " Get pet count grouped by type, ordered alphabetically by type name "
+    petStatisticsByType: [PetTypeCount!]!
+    
+    " Get top requested specialty service per pet type "
+    topServicesByPetType: [TopService!]!
+}
