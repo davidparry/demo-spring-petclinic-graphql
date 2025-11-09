@@ -16,12 +16,15 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Owner;
@@ -70,5 +73,30 @@ public interface OwnerRepository extends Repository<Owner, Integer>, JpaSpecific
      *
      */
 	void delete(Owner owner);
+
+    /**
+     * Find all owner names who have pets of a specific type that have been treated
+     * by vets with a particular specialty.
+     *
+     * @param petTypeName the name of the pet type to filter by
+     * @param specialtyName the name of the vet specialty to filter by
+     * @return a list of distinct owner full names (firstName + lastName)
+     */
+    @Query("""
+        SELECT DISTINCT CONCAT(o.firstName, ' ', o.lastName)
+        FROM Owner o
+        JOIN o.pets p
+        JOIN p.type pt
+        JOIN p.visits v
+        JOIN Vet vet ON vet.id = v.vetId
+        JOIN vet.specialties s
+        WHERE LOWER(pt.name) = LOWER(:petTypeName)
+        AND LOWER(s.name) = LOWER(:specialtyName)
+        ORDER BY o.firstName, o.lastName
+        """)
+    List<String> findOwnerNamesByPetTypeAndVetSpecialty(
+        @Param("petTypeName") String petTypeName,
+        @Param("specialtyName") String specialtyName
+    );
 
 }

@@ -160,6 +160,14 @@ type Query {
     " Returns 'pong', can be used to verify GraphQL API is working"
     ping: String!
     specialties: [Specialty!]!
+    """
+    Find all owner names who have pets of a specific type
+    that have been treated by vets with a particular specialty
+    """
+    ownersByPetTypeAndVetSpecialty(
+        petTypeName: String!
+        specialtyName: String!
+    ): [String!]!
     " Return the specified Vet or null if undefined"
     vet(id: Int!): Vet
     " Return all known veterinaries"
@@ -168,6 +176,14 @@ type Query {
 
 type RemoveSpecialtyPayload {
     specialties: [Specialty!]!
+    """
+    Find all owner names who have pets of a specific type
+    that have been treated by vets with a particular specialty
+    """
+    ownersByPetTypeAndVetSpecialty(
+        petTypeName: String!
+        specialtyName: String!
+    ): [String!]!
 }
 
 " Specialty of a Vetenarian"
@@ -208,6 +224,14 @@ type Vet implements Person {
     lastName: String!
     " What is this Vet specialized in?"
     specialties: [Specialty!]!
+    """
+    Find all owner names who have pets of a specific type
+    that have been treated by vets with a particular specialty
+    """
+    ownersByPetTypeAndVetSpecialty(
+        petTypeName: String!
+        specialtyName: String!
+    ): [String!]!
     " All of this Vet's visits"
     visits: VisitConnection!
 }
