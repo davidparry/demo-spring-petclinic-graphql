@@ -79,4 +79,11 @@ public interface PetRepository extends Repository<Pet, Integer> {
      */
 	void delete(Pet pet);
 
+    /**
+     * Count pets by type for statistics
+     * Returns: type_name, count
+     */
+    @Query("SELECT p.type.name, COUNT(p) FROM Pet p GROUP BY p.type.name")
+    List<Object[]> countPetsByType();
+
 }
